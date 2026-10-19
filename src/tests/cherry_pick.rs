@@ -25,19 +25,19 @@ fn cherry_pick_menu() {
 #[test]
 fn cherry_pick_prompt() {
     // Navigate to the log, select the initial commit, then open cherry-pick prompt
-    snapshot!(setup_cherry_pickable(setup_clone!()), "llAA");
+    snapshot!(setup_cherry_pickable(setup_clone!()), "LlAA");
 }
 
 #[test]
 fn cherry_pick_prompt_cancel() {
-    snapshot!(setup_cherry_pickable(setup_clone!()), "llAA<esc>");
+    snapshot!(setup_cherry_pickable(setup_clone!()), "LlAA<esc>");
 }
 
 #[test]
 fn cherry_pick() {
     snapshot!(
         setup_cherry_pickable(setup_clone!()),
-        "llAAother-branch<enter>"
+        "LlAAother-branch<enter>"
     );
 }
 
@@ -45,7 +45,7 @@ fn cherry_pick() {
 fn cherry_pick_no_commit() {
     snapshot!(
         setup_cherry_pickable(setup_clone!()),
-        "llA-nAAother-branch<enter>"
+        "LlA-nAAother-branch<enter>"
     );
 }
 

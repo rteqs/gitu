@@ -8,7 +8,7 @@ pub(crate) fn quit() {
 
 #[test]
 pub(crate) fn quit_from_menu() {
-    let app = snapshot!(setup_clone!(), "hq");
+    let app = snapshot!(setup_clone!(), "?q");
     assert!(!app.state.quit);
 }
 

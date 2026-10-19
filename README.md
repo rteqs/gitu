@@ -24,7 +24,7 @@ Here's a list of so-far supported features:
 
 ### Keybinds
 Keybinds try mimic Magit, while staying Vim-like.
-A help-menu can be shown by pressing the `h` key, or by configuring `general.always_show_help.enabled = true`
+Press `?` to open help. Set `general.always_show_help.enabled = true` to keep help visible.
 
 
 <img style="width: 720px" src="vhs/help.png"/>
@@ -36,10 +36,26 @@ This fork selects individual changed lines with Vim keys.
 | --- | --- |
 | `j` / `↓` | Select the next changed line or header. |
 | `k` / `↑` | Select the previous changed line or header. |
+| `h` / `←` | Navigate left through sections. |
+| `l` / `→` | Navigate right through sections. |
 | `Ctrl+j` / `Ctrl+↓` | Move down without selecting diff lines. |
 | `Ctrl+k` / `Ctrl+↑` | Move up without selecting diff lines. |
 | `Alt+j` / `Alt+k` | Select the next or previous section. |
 | `Tab` | Fold or unfold the selected section. |
+| `?` | Open help. |
+| `L` | Open the log menu. |
+
+```text
+Section navigation
+ ├── h / ←
+ │    ├── Expanded section ──► EXECUTE: Fold section
+ │    ├── Parent section exists ──► EXECUTE: Select parent section
+ │    └── Otherwise ──► EXECUTE: Keep selection
+ └── l / →
+      ├── Collapsed section ──► EXECUTE: Unfold section
+      ├── Expanded section with selectable children ──► EXECUTE: Select first selectable child
+      └── Otherwise ──► EXECUTE: Keep selection
+```
 
 Unchanged context lines remain unselectable.
 

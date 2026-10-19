@@ -9,72 +9,72 @@ fn setup(ctx: TestContext) -> TestContext {
 
 #[test]
 fn limit_prompt() {
-    snapshot!(setup(setup_clone!()), "l-n-n");
+    snapshot!(setup(setup_clone!()), "L-n-n");
 }
 
 #[test]
 fn limit_set_10() {
-    snapshot!(setup(setup_clone!()), "l-n-n10<enter>");
+    snapshot!(setup(setup_clone!()), "L-n-n10<enter>");
 }
 
 #[test]
 fn limit_invalid() {
-    snapshot!(setup(setup_clone!()), "l-n-nfff<enter>");
+    snapshot!(setup(setup_clone!()), "L-n-nfff<enter>");
 }
 
 #[test]
 fn limit_2_commits() {
-    snapshot!(setup(setup_clone!()), "l-n-n2<enter>l");
+    snapshot!(setup(setup_clone!()), "L-n-n2<enter>l");
 }
 
 #[test]
 fn limit_2_commits_other() {
-    snapshot!(setup(setup_clone!()), "l-n-n2<enter>l");
+    snapshot!(setup(setup_clone!()), "L-n-n2<enter>l");
 }
 
 #[test]
 fn grep_prompt() {
-    snapshot!(setup(setup_clone!()), "l-F");
+    snapshot!(setup(setup_clone!()), "L-F");
 }
 
 #[test]
 fn grep_set_example() {
-    snapshot!(setup(setup_clone!()), "l-Fexample<enter>");
+    snapshot!(setup(setup_clone!()), "L-Fexample<enter>");
 }
 
 #[test]
 fn grep_second() {
-    snapshot!(setup(setup_clone!()), "l-Fsecond<enter>l");
+    snapshot!(setup(setup_clone!()), "L-Fsecond<enter>l");
 }
 
 #[test]
 fn grep_no_match() {
-    snapshot!(setup(setup_clone!()), "l-Fdoesntexist<enter>l");
+    snapshot!(setup(setup_clone!()), "L-Fdoesntexist<enter>l");
 }
 
 #[test]
 fn grep_second_other() {
-    snapshot!(setup(setup_clone!()), "l-Fsecond<enter>omain<enter>");
+    snapshot!(setup(setup_clone!()), "L-Fsecond<enter>omain<enter>");
 }
 
 #[test]
 fn log_other_prompt() {
-    snapshot!(setup(setup_clone!()), "lljlo");
+    snapshot!(setup(setup_clone!()), "LljLo");
 }
 
 #[test]
 fn log_other() {
-    snapshot!(setup(setup_clone!()), "lljlo<enter>");
+    snapshot!(setup(setup_clone!()), "LljLo<enter>");
 }
 
 #[test]
 fn log_other_input() {
-    snapshot!(setup(setup_clone!()), "lomain~1<enter>");
+    snapshot!(setup(setup_clone!()), "Lomain~1<enter>");
 }
 
 #[test]
 fn log_other_invalid() {
-    snapshot!(setup(setup_clone!()), "lo <enter>");
+    snapshot!(setup(setup_clone!()), "Lo <enter>");
 }
 
 #[test]
@@ -88,6 +88,6 @@ fn log_empty_branch() {
     run(&ctx.dir, &["git", "init", "--initial-branch=main"]);
 
     let mut app = ctx.init_app();
-    ctx.update(&mut app, keys("ll"));
+    ctx.update(&mut app, keys("Ll"));
     insta::assert_snapshot!(ctx.redact_buffer());
 }

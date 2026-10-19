@@ -86,6 +86,95 @@ fn vim_motion_skips_collapsed_hunk() {
     }
 }
 
+#[test]
+fn vim_motion_folds_and_unfolds_hunk() {
+    let (mut ctx, mut app) = setup_hunk(setup_clone!());
+
+    for (left, right) in [("h", "l"), ("<left>", "<right>")] {
+        ctx.update(&mut app, keys(left));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::Hunk { .. }
+        ));
+        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
+
+        ctx.update(&mut app, keys(right));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::Hunk { .. }
+        ));
+        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
+    }
+}
+
+#[test]
+fn vim_motion_selects_hunk_parent_and_child() {
+    let (mut ctx, mut app) = setup_hunk(setup_clone!());
+
+    for (left, right) in [("h", "l"), ("<left>", "<right>")] {
+        ctx.update(&mut app, keys(right));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::HunkLine { line_i: 0, .. }
+        ));
+
+        ctx.update(&mut app, keys(right));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::HunkLine { line_i: 0, .. }
+        ));
+
+        ctx.update(&mut app, keys(left));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::Hunk { .. }
+        ));
+        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
+    }
+}
+
+#[test]
+fn vim_motion_selects_file_parent_and_child() {
+    let (mut ctx, mut app) = setup_hunk(setup_clone!());
+
+    for (left, right) in [("h", "l"), ("<left>", "<right>")] {
+        ctx.update(&mut app, keys(&left.repeat(2)));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::Delta { .. }
+        ));
+
+        ctx.update(&mut app, keys(left));
+        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
+
+        ctx.update(&mut app, keys(left));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::AllUnstaged(_)
+        ));
+
+        ctx.update(&mut app, keys(right));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::Delta { .. }
+        ));
+        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
+
+        ctx.update(&mut app, keys(right));
+        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
+
+        ctx.update(&mut app, keys(right));
+        assert!(matches!(
+            app.screen().get_selected_item().data,
+            ItemData::Hunk { .. }
+        ));
+        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
+
+        ctx.update(&mut app, keys(right));
+        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
+    }
+}
+
 fn setup_scroll(mut ctx: TestContext) -> (TestContext, crate::app::App) {
     for file in ["file-1", "file-2", "file-3"] {
         commit(&ctx.dir, file, "");

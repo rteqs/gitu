@@ -211,6 +211,28 @@ impl OpTrait for MoveUpLine {
     }
 }
 
+pub(crate) struct MoveLeft;
+impl OpTrait for MoveLeft {
+    fn get_action(&self, _target: &ItemData) -> Option<Action> {
+        Some(Rc::new(|app, _term| app.screen_mut().move_left()))
+    }
+
+    fn display(&self, _state: &State) -> String {
+        "Left (fold/parent)".into()
+    }
+}
+
+pub(crate) struct MoveRight;
+impl OpTrait for MoveRight {
+    fn get_action(&self, _target: &ItemData) -> Option<Action> {
+        Some(Rc::new(|app, _term| app.screen_mut().move_right()))
+    }
+
+    fn display(&self, _state: &State) -> String {
+        "Right (unfold/child)".into()
+    }
+}
+
 pub(crate) struct MoveToScreenLine(pub usize);
 impl OpTrait for MoveToScreenLine {
     fn get_action(&self, _target: &ItemData) -> Option<Action> {
