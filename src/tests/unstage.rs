@@ -14,7 +14,7 @@ fn unstage_removed_line() {
     commit(&ctx.dir, "firstfile", "testing\ntesttest\n");
     fs::write(ctx.dir.join("firstfile"), "weehooo\nblrergh\n").unwrap();
     run(&ctx.dir, &["git", "add", "."]);
-    snapshot!(ctx, "jj<tab><ctrl+j><ctrl+j>u");
+    snapshot!(ctx, "jj<tab>jju");
 }
 
 #[test]
@@ -23,7 +23,7 @@ fn unstage_added_line() {
     commit(&ctx.dir, "firstfile", "testing\ntesttest\n");
     fs::write(ctx.dir.join("firstfile"), "weehooo\nblrergh\n").unwrap();
     run(&ctx.dir, &["git", "add", "."]);
-    snapshot!(ctx, "jj<tab><ctrl+j><ctrl+j><ctrl+j><ctrl+j>u");
+    snapshot!(ctx, "jj<tab>jjjju");
 }
 
 #[test]

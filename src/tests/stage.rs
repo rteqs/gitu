@@ -34,7 +34,7 @@ fn stage_removed_line() {
     let ctx = setup_clone!();
     commit(&ctx.dir, "firstfile", "testing\ntesttest\n");
     fs::write(ctx.dir.join("firstfile"), "weehooo\nblrergh\n").unwrap();
-    snapshot!(ctx, "jj<tab><ctrl+j><ctrl+j>s");
+    snapshot!(ctx, "jj<tab>jjs");
 }
 
 #[test]
@@ -43,7 +43,7 @@ fn stage_added_line() {
     commit(&ctx.dir, "firstfile", "testing\ntesttest\n");
     fs::write(ctx.dir.join("firstfile"), "weehooo\nblrergh\n").unwrap();
 
-    snapshot!(ctx, "jj<tab><ctrl+j><ctrl+j><ctrl+j><ctrl+j>s");
+    snapshot!(ctx, "jj<tab>jjjjs");
 }
 
 #[test]

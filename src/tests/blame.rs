@@ -33,12 +33,12 @@ fn blame_from_hunk() {
 
 #[test]
 fn blame_navigate_code_line() {
-    snapshot!(setup(setup_clone!()), "ll<enter>B<ctrl+j>");
+    snapshot!(setup(setup_clone!()), "ll<enter>Bj");
 }
 
 #[test]
 fn blame_enter_on_header() {
-    snapshot!(setup(setup_clone!()), "ll<enter>Bk<enter>");
+    snapshot!(setup(setup_clone!()), "ll<enter>B<ctrl+k><enter>");
 }
 
 #[test]

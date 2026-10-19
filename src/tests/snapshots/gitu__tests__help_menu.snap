@@ -5,10 +5,10 @@ expression: ctx.redact_buffer()
 ────────────────────────────────────────────────────────────────────────────────|
  Help                                     Submenu           On branch main      |
  Y                Show Refs               b   Branch        tab Fold            |
- k/up             Up                      c   Commit                            |
- j/down           Down                    f   Fetch                             |
- ctrl+k/ctrl+up   Up line                 h/? Help                              |
- ctrl+j/ctrl+down Down line               l   Log                               |
+ ctrl+k/ctrl+up   Up                      c   Commit                            |
+ ctrl+j/ctrl+down Down                    f   Fetch                             |
+ k/up             Up line                 h/? Help                              |
+ j/down           Down line               l   Log                               |
  alt+k/alt+up     Prev section            m   Merge                             |
  alt+j/alt+down   Next section            M   Remote                            |
  alt+h/alt+left   Parent section          F   Pull                              |
@@ -22,4 +22,4 @@ expression: ctx.redact_buffer()
  n                Next match                                                    |
  N                Previous match                                                |
  g+r              Refresh                                                       |
-styles_hash: 8e4b0994d480981d
+styles_hash: 92f406b371ac1400

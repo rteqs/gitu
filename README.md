@@ -29,6 +29,25 @@ A help-menu can be shown by pressing the `h` key, or by configuring `general.alw
 
 <img style="width: 720px" src="vhs/help.png"/>
 
+### Fork defaults
+This fork selects individual changed lines with Vim keys.
+
+| Keys | Action |
+| --- | --- |
+| `j` / `↓` | Select the next changed line or header. |
+| `k` / `↑` | Select the previous changed line or header. |
+| `Ctrl+j` / `Ctrl+↓` | Move down without selecting diff lines. |
+| `Ctrl+k` / `Ctrl+↑` | Move up without selecting diff lines. |
+| `Alt+j` / `Alt+k` | Select the next or previous section. |
+| `Tab` | Fold or unfold the selected section. |
+
+Unchanged context lines remain unselectable.
+
+Install this fork from the checkout:
+```shell
+cargo install --path . --locked --force
+```
+
 ### Configuration
 The environment variables `VISUAL`, `EDITOR` or `GIT_EDITOR` (checked in this order) dictate which editor Gitu will open. This means that e. g. commit messages will be opened in the `GIT_EDITOR` by Git, but if the user wishes to do edits to the actual files in a different editor, `VISUAL` or `EDITOR` can be set accordingly.
 

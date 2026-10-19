@@ -55,7 +55,7 @@ pub(crate) fn discard_staged_file_while_unstaged_changes() {
     // modified unstaged
     fs::write(ctx.dir.join("initial-file"), "modified\n").unwrap();
 
-    snapshot!(ctx, "jj<tab>jjj<tab>Ky");
+    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>Ky");
 }
 
 #[test]
@@ -69,7 +69,7 @@ pub(crate) fn discard_staged_hunk_while_unstaged_changes() {
     // modified unstaged
     fs::write(ctx.dir.join("initial-file"), "modified\n").unwrap();
 
-    snapshot!(ctx, "jj<tab>jjj<tab>jKy");
+    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>jKy");
 }
 
 #[test]
@@ -83,7 +83,7 @@ pub(crate) fn discard_staged_line_while_unstaged_changes() {
     // modified unstaged
     fs::write(ctx.dir.join("initial-file"), "modified\n").unwrap();
 
-    snapshot!(ctx, "jj<tab>jjj<tab>j<ctrl+j>Ky");
+    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>jjKy");
 }
 
 #[test]
@@ -116,7 +116,7 @@ pub(crate) fn discard_unstaged_line() {
     let ctx = setup_clone!();
     commit(&ctx.dir, "file-one", "FOO\nBAR\n");
     fs::write(ctx.dir.join("file-one"), "blahonga\n").unwrap();
-    snapshot!(ctx, "jj<tab>j<ctrl+j>Ky<ctrl+j><ctrl+j>Ky");
+    snapshot!(ctx, "jj<tab>jjKyjjKy");
 }
 
 #[test]
