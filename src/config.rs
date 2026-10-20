@@ -391,13 +391,41 @@ pub(crate) fn init_test_config() -> Res<Config> {
 
 #[cfg(test)]
 mod tests {
-    use crate::style::Color;
+    use crate::{menu::Menu, ops::Op, style::Color};
     use figment::{
         Figment,
         providers::{Format, Toml},
     };
 
     use super::{DEFAULT_CONFIG, FigmentConfig};
+
+    #[test]
+    fn edamagit_commands_preserve_arrow_navigation() {
+        let config = super::init_test_config().unwrap();
+
+        for (keys, expected) in [
+            ("k", Op::Discard),
+            ("l", Op::OpenMenu(Menu::Log)),
+            ("tab", Op::ToggleSection),
+            ("?", Op::OpenMenu(Menu::Help)),
+            ("up", Op::MoveUpLine),
+            ("j", Op::MoveDownLine),
+            ("down", Op::MoveDownLine),
+            ("ctrl+j", Op::MoveDown),
+            ("ctrl+k", Op::MoveUp),
+        ] {
+            let (remaining, events) = crate::key_parser::parse_config_keys(keys).unwrap();
+            assert_eq!(remaining, "");
+
+            let bindings = config
+                .bindings
+                .match_bindings(&Menu::Root, &events)
+                .collect::<Vec<_>>();
+
+            assert_eq!(bindings.len(), 1, "{keys}");
+            assert_eq!(bindings[0].op, expected, "{keys}");
+        }
+    }
 
     #[test]
     fn config_merges() {

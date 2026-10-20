@@ -290,38 +290,6 @@ impl Screen {
         Ok(())
     }
 
-    pub(crate) fn move_left(&mut self) -> Res<()> {
-        let selected = self.get_selected_item();
-        if selected.data.is_section() && !self.is_collapsed(selected) {
-            return self.toggle_section();
-        }
-
-        if let Some(depth) = selected.depth.checked_sub(1) {
-            self.select_previous(NavMode::Siblings { depth });
-        }
-
-        Ok(())
-    }
-
-    pub(crate) fn move_right(&mut self) -> Res<()> {
-        let selected = self.get_selected_item();
-        if !selected.data.is_section() {
-            return Ok(());
-        }
-
-        if self.is_collapsed(selected) {
-            return self.toggle_section();
-        }
-
-        let depth = selected.depth;
-        let next = self.find_next(NavMode::IncludeSubLines);
-        if self.items[next].depth > depth {
-            self.select_next(NavMode::IncludeSubLines);
-        }
-
-        Ok(())
-    }
-
     pub(crate) fn refresh(&mut self) -> Res<()> {
         self.items = (self.refresh_items)()?;
         self.invalidate();
@@ -1138,34 +1106,6 @@ mod tests {
         screen.scroll_view_up(3);
         assert_eq!(0, screen.scroll.item_anchor);
         assert_eq!(0, screen.scroll.offset);
-    }
-
-    #[test]
-    fn move_left_stays_on_collapsed_root() {
-        let mut screen = tree_screen(TREE, (80, 20));
-        let root = 6;
-        screen.cursor = root;
-
-        screen.move_left().unwrap();
-        assert!(screen.is_collapsed(screen.get_selected_item()));
-        assert_eq!(root, screen.cursor);
-
-        screen.move_left().unwrap();
-        assert_eq!(root, screen.cursor);
-    }
-
-    #[test]
-    fn move_right_stays_on_leaf_or_empty_section() {
-        let mut screen = tree_screen(&[(0, true), (0, true), (1, false)], (80, 20));
-        let empty_section = 0;
-        let leaf = 2;
-
-        screen.move_right().unwrap();
-        assert_eq!(empty_section, screen.cursor);
-
-        screen.cursor = leaf;
-        screen.move_right().unwrap();
-        assert_eq!(leaf, screen.cursor);
     }
 
     fn laid_out_count(screen: &Screen) -> usize {

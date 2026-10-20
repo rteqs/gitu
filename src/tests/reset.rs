@@ -7,25 +7,25 @@ fn setup(ctx: TestContext) -> TestContext {
 
 #[test]
 pub(crate) fn reset_menu() {
-    snapshot!(setup(setup_clone!()), "LljX");
+    snapshot!(setup(setup_clone!()), "lljX");
 }
 
 #[test]
 pub(crate) fn reset_soft_prompt() {
-    snapshot!(setup(setup_clone!()), "LljXsq");
+    snapshot!(setup(setup_clone!()), "lljXsq");
 }
 
 #[test]
 pub(crate) fn reset_soft() {
-    snapshot!(setup(setup_clone!()), "LljXs<enter>q");
+    snapshot!(setup(setup_clone!()), "lljXs<enter>q");
 }
 
 #[test]
 pub(crate) fn reset_mixed() {
-    snapshot!(setup(setup_clone!()), "LljXm<enter>q");
+    snapshot!(setup(setup_clone!()), "lljXm<enter>q");
 }
 
 #[test]
 fn reset_hard() {
-    snapshot!(setup(setup_clone!()), "LljXh<enter>q");
+    snapshot!(setup(setup_clone!()), "lljXh<enter>q");
 }

@@ -183,14 +183,14 @@ fn log() {
     run(&ctx.dir, &["git", "tag", "-am", ".", "annotated"]);
     commit(&ctx.dir, "secondfile", "testing\ntesttest\n");
     run(&ctx.dir, &["git", "tag", "a-tag"]);
-    snapshot!(ctx, "Ll");
+    snapshot!(ctx, "ll");
 }
 
 #[test]
 fn show() {
     let ctx = setup_clone!();
     commit(&ctx.dir, "firstfile", "This should be visible\n");
-    snapshot!(ctx, "Ll<enter>");
+    snapshot!(ctx, "ll<enter>");
 }
 
 #[test]
@@ -289,19 +289,19 @@ fn revert_abort() {
 #[test]
 fn revert_menu() {
     let ctx = setup_clone!();
-    snapshot!(ctx, "LlV");
+    snapshot!(ctx, "llV");
 }
 
 #[test]
 fn revert_commit_prompt() {
     let ctx = setup_clone!();
-    snapshot!(ctx, "LlVV");
+    snapshot!(ctx, "llVV");
 }
 
 #[test]
 fn revert_commit() {
     let ctx = setup_clone!();
-    snapshot!(ctx, "LlV-EV<enter>");
+    snapshot!(ctx, "llV-EV<enter>");
 }
 
 #[test]

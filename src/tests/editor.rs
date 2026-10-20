@@ -16,11 +16,11 @@ fn setup_hunk(mut ctx: TestContext) -> (TestContext, crate::app::App) {
 }
 
 #[test]
-fn vim_motion_walks_hunk_lines() {
+fn line_navigation_walks_hunk_lines() {
     let (mut ctx, mut app) = setup_hunk(setup_clone!());
     let line_count = 4;
 
-    for (down, up) in [("j", "k"), ("<down>", "<up>")] {
+    for (down, up) in [("j", "<up>"), ("<down>", "<up>")] {
         for expected_line in 0..line_count {
             ctx.update(&mut app, keys(down));
             assert!(matches!(
@@ -66,11 +66,11 @@ fn ctrl_motion_skips_hunk_lines() {
 }
 
 #[test]
-fn vim_motion_skips_collapsed_hunk() {
+fn line_navigation_skips_collapsed_hunk() {
     let (mut ctx, mut app) = setup_hunk(setup_clone!());
     ctx.update(&mut app, keys("<tab>"));
 
-    for (down, up) in [("j", "k"), ("<down>", "<up>")] {
+    for (down, up) in [("j", "<up>"), ("<down>", "<up>")] {
         ctx.update(&mut app, keys(down));
         assert!(matches!(
             app.screen().get_selected_item().data,
@@ -83,95 +83,6 @@ fn vim_motion_skips_collapsed_hunk() {
             ItemData::Hunk { .. }
         ));
         assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
-    }
-}
-
-#[test]
-fn vim_motion_folds_and_unfolds_hunk() {
-    let (mut ctx, mut app) = setup_hunk(setup_clone!());
-
-    for (left, right) in [("h", "l"), ("<left>", "<right>")] {
-        ctx.update(&mut app, keys(left));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::Hunk { .. }
-        ));
-        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
-
-        ctx.update(&mut app, keys(right));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::Hunk { .. }
-        ));
-        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
-    }
-}
-
-#[test]
-fn vim_motion_selects_hunk_parent_and_child() {
-    let (mut ctx, mut app) = setup_hunk(setup_clone!());
-
-    for (left, right) in [("h", "l"), ("<left>", "<right>")] {
-        ctx.update(&mut app, keys(right));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::HunkLine { line_i: 0, .. }
-        ));
-
-        ctx.update(&mut app, keys(right));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::HunkLine { line_i: 0, .. }
-        ));
-
-        ctx.update(&mut app, keys(left));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::Hunk { .. }
-        ));
-        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
-    }
-}
-
-#[test]
-fn vim_motion_selects_file_parent_and_child() {
-    let (mut ctx, mut app) = setup_hunk(setup_clone!());
-
-    for (left, right) in [("h", "l"), ("<left>", "<right>")] {
-        ctx.update(&mut app, keys(&left.repeat(2)));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::Delta { .. }
-        ));
-
-        ctx.update(&mut app, keys(left));
-        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
-
-        ctx.update(&mut app, keys(left));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::AllUnstaged(_)
-        ));
-
-        ctx.update(&mut app, keys(right));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::Delta { .. }
-        ));
-        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
-
-        ctx.update(&mut app, keys(right));
-        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
-
-        ctx.update(&mut app, keys(right));
-        assert!(matches!(
-            app.screen().get_selected_item().data,
-            ItemData::Hunk { .. }
-        ));
-        assert!(app.screen().is_collapsed(app.screen().get_selected_item()));
-
-        ctx.update(&mut app, keys(right));
-        assert!(!app.screen().is_collapsed(app.screen().get_selected_item()));
     }
 }
 
@@ -191,7 +102,7 @@ fn setup_scroll(mut ctx: TestContext) -> (TestContext, crate::app::App) {
     }
 
     let mut app = ctx.init_app();
-    ctx.update(&mut app, keys("jjjj<tab>k<tab>k<tab>"));
+    ctx.update(&mut app, keys("jjjj<tab><up><tab><up><tab>"));
     (ctx, app)
 }
 

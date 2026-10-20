@@ -12,28 +12,28 @@ fn setup(ctx: TestContext) -> TestContext {
 pub(crate) fn discard_branch_confirm_prompt() {
     let ctx = setup_clone!();
     run(&ctx.dir, &["git", "branch", "asd"]);
-    snapshot!(ctx, "YjK");
+    snapshot!(ctx, "Yjk");
 }
 
 #[test]
 pub(crate) fn discard_branch_yes() {
     let ctx = setup_clone!();
     run(&ctx.dir, &["git", "branch", "asd"]);
-    snapshot!(ctx, "YjKy");
+    snapshot!(ctx, "Yjky");
 }
 
 #[test]
 pub(crate) fn discard_branch_no() {
     let ctx = setup_clone!();
     run(&ctx.dir, &["git", "branch", "asd"]);
-    snapshot!(ctx, "YjKn");
+    snapshot!(ctx, "Yjkn");
 }
 
 #[test]
 pub(crate) fn discard_untracked_file() {
     let ctx = setup_clone!();
     run(&ctx.dir, &["touch", "some-file"]);
-    snapshot!(ctx, "jjKy");
+    snapshot!(ctx, "jjky");
 }
 
 #[test]
@@ -41,7 +41,7 @@ pub(crate) fn discard_untracked_staged_file() {
     let ctx = setup_clone!();
     run(&ctx.dir, &["touch", "some-file"]);
     run(&ctx.dir, &["git", "add", "some-file"]);
-    snapshot!(ctx, "jsjKy");
+    snapshot!(ctx, "jsjky");
 }
 
 #[test]
@@ -55,7 +55,7 @@ pub(crate) fn discard_staged_file_while_unstaged_changes() {
     // modified unstaged
     fs::write(ctx.dir.join("initial-file"), "modified\n").unwrap();
 
-    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>Ky");
+    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>ky");
 }
 
 #[test]
@@ -69,7 +69,7 @@ pub(crate) fn discard_staged_hunk_while_unstaged_changes() {
     // modified unstaged
     fs::write(ctx.dir.join("initial-file"), "modified\n").unwrap();
 
-    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>jKy");
+    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>jky");
 }
 
 #[test]
@@ -83,7 +83,7 @@ pub(crate) fn discard_staged_line_while_unstaged_changes() {
     // modified unstaged
     fs::write(ctx.dir.join("initial-file"), "modified\n").unwrap();
 
-    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>jjKy");
+    snapshot!(ctx, "jj<tab>j<ctrl+j>j<tab>jjky");
 }
 
 #[test]
@@ -92,7 +92,7 @@ pub(crate) fn discard_file_move() {
     commit(&ctx.dir, "new-file", "hello");
     run(&ctx.dir, &["git", "mv", "new-file", "moved-file"]);
 
-    snapshot!(ctx, "jjKy");
+    snapshot!(ctx, "jjky");
 }
 
 #[test]
@@ -100,7 +100,7 @@ pub(crate) fn discard_unstaged_delta() {
     let ctx = setup_clone!();
     commit(&ctx.dir, "file-one", "FOO\nBAR\n");
     fs::write(ctx.dir.join("file-one"), "blahonga\n").unwrap();
-    snapshot!(ctx, "jjKy");
+    snapshot!(ctx, "jjky");
 }
 
 #[test]
@@ -108,7 +108,7 @@ pub(crate) fn discard_unstaged_hunk() {
     let ctx = setup_clone!();
     commit(&ctx.dir, "file-one", "FOO\nBAR\n");
     fs::write(ctx.dir.join("file-one"), "blahonga\n").unwrap();
-    snapshot!(ctx, "jj<tab>jKy");
+    snapshot!(ctx, "jj<tab>jky");
 }
 
 #[test]
@@ -116,25 +116,25 @@ pub(crate) fn discard_unstaged_line() {
     let ctx = setup_clone!();
     commit(&ctx.dir, "file-one", "FOO\nBAR\n");
     fs::write(ctx.dir.join("file-one"), "blahonga\n").unwrap();
-    snapshot!(ctx, "jj<tab>jjKyjjKy");
+    snapshot!(ctx, "jj<tab>jjkyjjky");
 }
 
 #[test]
 fn branch_selected_confirm() {
-    snapshot!(setup(setup_clone!()), "YjjK");
+    snapshot!(setup(setup_clone!()), "Yjjk");
 }
 
 #[test]
 fn branch_selected() {
-    snapshot!(setup(setup_clone!()), "YjjKy");
+    snapshot!(setup(setup_clone!()), "Yjjky");
 }
 
 #[test]
 fn unmerged_branch_selected_unmerged_confirm() {
-    snapshot!(setup(setup_clone!()), "YjjjKy");
+    snapshot!(setup(setup_clone!()), "Yjjjky");
 }
 
 #[test]
 fn unmerged_branch_selected() {
-    snapshot!(setup(setup_clone!()), "YjjjKyy");
+    snapshot!(setup(setup_clone!()), "Yjjjkyy");
 }

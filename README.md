@@ -30,32 +30,18 @@ Press `?` to open help. Set `general.always_show_help.enabled = true` to keep he
 <img style="width: 720px" src="vhs/help.png"/>
 
 ### Fork defaults
-This fork selects individual changed lines with Vim keys.
+This fork separates line navigation from Edamagit command keys. [[Edamagit bindings](https://github.com/kahole/edamagit#usage)]
 
 | Keys | Action |
 | --- | --- |
 | `j` / `↓` | Select the next changed line or header. |
-| `k` / `↑` | Select the previous changed line or header. |
-| `h` / `←` | Navigate left through sections. |
-| `l` / `→` | Navigate right through sections. |
+| `↑` | Select the previous changed line or header. |
 | `Ctrl+j` / `Ctrl+↓` | Move down without selecting diff lines. |
 | `Ctrl+k` / `Ctrl+↑` | Move up without selecting diff lines. |
-| `Alt+j` / `Alt+k` | Select the next or previous section. |
+| `k` | Discard the selection. |
+| `l` | Open the log menu. |
 | `Tab` | Fold or unfold the selected section. |
 | `?` | Open help. |
-| `L` | Open the log menu. |
-
-```text
-Section navigation
- ├── h / ←
- │    ├── Expanded section ──► EXECUTE: Fold section
- │    ├── Parent section exists ──► EXECUTE: Select parent section
- │    └── Otherwise ──► EXECUTE: Keep selection
- └── l / →
-      ├── Collapsed section ──► EXECUTE: Unfold section
-      ├── Expanded section with selectable children ──► EXECUTE: Select first selectable child
-      └── Otherwise ──► EXECUTE: Keep selection
-```
 
 Unchanged context lines remain unselectable.
 
